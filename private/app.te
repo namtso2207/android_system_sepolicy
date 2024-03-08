@@ -496,6 +496,7 @@ neverallow {
   -dalvikcache_data_file
   -system_data_file # shared libs in apks
   -apk_data_file
+  -system_data_root_file
 }:file no_x_file_perms;
 
 # For now, don't allow apps other than gmscore to access /data/misc_ce/<userid>/checkin

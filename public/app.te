@@ -16,7 +16,7 @@ type appdomain_tmpfs, file_type;
 
 # Superuser capabilities.
 # bluetooth requires net_admin and wake_alarm. network stack app requires net_admin.
-neverallow { appdomain -bluetooth -network_stack } self:capability_class_set *;
+neverallow { appdomain -bluetooth -network_stack -system_app } self:capability_class_set *;
 
 # Block device access.
 neverallow appdomain dev_type:blk_file { read write };

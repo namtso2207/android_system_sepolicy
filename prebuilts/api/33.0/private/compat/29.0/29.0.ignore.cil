@@ -112,6 +112,8 @@
     traced_perf_enabled_prop
     traced_perf_socket
     timezonedetector_service
+    cmdserver
+    cmdserver_exec
     untrusted_app_29
     usb_serial_device
     userspace_reboot_config_prop

@@ -136,6 +136,8 @@
     sysfs_uhid
     system_server_dumper_service
     system_suspend_control_internal_service
+    cmdserver
+    cmdserver_exec
     task_profiles_api_file
     texttospeech_service
     translation_service

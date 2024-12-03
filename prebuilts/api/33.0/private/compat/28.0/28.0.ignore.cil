@@ -143,6 +143,8 @@
     time_prop
     timedetector_service
     timezonedetector_service
+    cmdserver
+    cmdserver_exec
     traced_lazy_prop
     uri_grants_service
     use_memfd_prop

@@ -1,0 +1,43 @@
+type cmdserver, domain, mlstrustedsubject;
+type cmdserver_exec, exec_type, file_type, system_file_type;
+
+#allow cmdserver activity_service:service_manager { find add list };
+#allow cmdserver account_service:service_manager { find add list };
+allow cmdserver proc_net:file { read open getattr write };
+allow cmdserver ashmem_device:chr_file { execute getattr read open write };
+allow cmdserver toolbox_exec:file { getattr execute_no_trans open read execute };
+allow cmdserver rootfs:lnk_file  { getattr open read write execute };
+allow cmdserver system_file:file { execute_no_trans open read write execute };
+allow cmdserver system_file:dir { read open write getattr execute};
+allow cmdserver shell_exec:file  { getattr open read write execute execute_no_trans };
+allow cmdserver shell:file { getattr };
+allow cmdserver zygote_exec:file { read open write execute getattr execute_no_trans };
+allow cmdserver system_data_file:dir { open read write add_name create };
+allow cmdserver system_data_file:file { open read write create lock };
+allow cmdserver system_data_file:lnk_file { unlink read write open };
+allow cmdserver dalvikcache_data_file:dir { open read write search getattr add_name remove_name unlink};
+allow cmdserver dalvikcache_data_file:file { open read write lock getattr create execute execute_no_trans unlink};
+allow cmdserver dalvikcache_data_file:lnk_file { read getattr unlink open write };
+allow cmdserver servicemanager:binder { call  transfer};
+allow cmdserver servicemanager:dir  { open read write create search };
+allow cmdserver servicemanager:file  { open read write create };
+allow cmdserver self:process execmem;
+allow cmdserver servicemanager:process { getattr execmem };
+allow servicemanager cmdserver:dir search;
+allow servicemanager cmdserver:file { open read write create };
+allow servicemanager cmdserver:process { getattr execmem };
+#allow cmdserver user_service:service_manager { find add list };
+#allow cmdserver package_service:service_manager { find add list };
+allow cmdserver system_server:binder { call transfer };
+allow cmdserver system_server:unix_stream_socket { read write create getopt setopt };
+allow system_server cmdserver:binder { call transfer };
+allow cmdserver apk_data_file:dir create_dir_perms;
+allow cmdserver apk_data_file:file { create_file_perms link };
+allow cmdserver apk_tmp_file:dir create_dir_perms;
+allow cmdserver apk_tmp_file:file create_file_perms;
+allow cmdserver self:process execmem;
+allow cmdserver vendor_file:file { getattr execute read open execute_no_trans };
+
+binder_use(cmdserver);
+binder_service(cmdserver)
+binder_call(cmdserver, system_server)

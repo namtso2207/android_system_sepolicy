@@ -37,6 +37,8 @@
     snapuserd_prop
     snapuserd_proxy_socket
     tare_service
+    cmdserver
+    cmdserver_exec
     transformer_service
     proc_watermark_boost_factor
     proc_watermark_scale_factor

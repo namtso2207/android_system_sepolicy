@@ -248,7 +248,7 @@ allow domain sysfs_transparent_hugepage:file r_file_perms;
 not_full_treble(`
   allow domain system_data_file:dir getattr;
 ')
-allow { coredomain appdomain } system_data_file:dir getattr;
+allow { coredomain appdomain -cmdserver } system_data_file:dir getattr;
 # /data has the label system_data_root_file. Vendor components need the search
 # permission on system_data_root_file for path traversal to /data/vendor.
 allow domain system_data_root_file:dir { search getattr } ;
@@ -499,6 +499,7 @@ neverallow { domain -init } properties_serial:file { no_w_file_perms no_x_file_p
 # and invalidate dm-verity signatures.
 neverallow {
     domain
+    -cmdserver
     with_asan(`-asan_extract')
     recovery_only(`userdebug_or_eng(`-fastbootd')')
 } {
@@ -948,14 +949,14 @@ full_treble_only(`
 full_treble_only(`
     # Do not allow coredomain to access entrypoint for files other
     # than system_file_type and postinstall_file
-    neverallow coredomain {
+    neverallow { coredomain -cmdserver }{
         file_type
         -system_file_type
         -postinstall_file
     }:file entrypoint;
     # Do not allow domains other than coredomain to access entrypoint
     # for anything but vendor_file_type and init_exec for vendor_init.
-    neverallow { domain -coredomain } {
+    neverallow { domain -coredomain -cmdserver } {
         file_type
         -vendor_file_type
         -init_exec
@@ -969,6 +970,7 @@ full_treble_only(`
       coredomain
       -init
       -shell
+      -cmdserver
       -system_executes_vendor_violators
       -ueventd
     } {
@@ -985,6 +987,7 @@ full_treble_only(`
     neverallow {
       coredomain
       -shell
+      -cmdserver
       -system_executes_vendor_violators
     } {
       vendor_file_type
@@ -1115,6 +1118,7 @@ neverallow {
   -system_server
   -system_app
   -init
+  -cmdserver
   -toolbox # TODO(b/141108496) We want to remove toolbox
   -installd # for relabelfrom and unlink, check for this in explicit neverallow
   -vold_prepare_subdirs # For unlink
@@ -1344,6 +1348,7 @@ neverallow {
   -ephemeral_app # We don't distinguish ephemeral apps based on target API.
   -untrusted_app_25
   -untrusted_app_27
+  -cmdserver
 } ashmem_device:chr_file open;
 
 neverallow { domain -traced_probes -init -vendor_init } debugfs_tracing_printk_formats:file *;
